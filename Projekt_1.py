@@ -33,90 +33,74 @@ garpike and stingray are also present.'''
 ]
 
 # Registrovaní uživatelé
-users = {'bob' : '123',
+USERS = {'bob' : '123',
          'ann' : 'pass123',
          'mike': 'password123',
          'liz' : 'pass123'}
 
-# Nadefinování dělící čáry
-def line():
-    print(40 * '-')
+# Nastavení oddělovače
+ODDELOVAC = 40 * '-'
+
 
 # Úvod programu
-line()
+print(ODDELOVAC)
 print('Welcome to the app. Please log in:')
 username = input('USERNAME: ')
 password = input('PASSWORD: ')
 
 # Ověření jména a hesla
-if username in users and password == users[username]:
+if USERS.get(username) == password:
     print('Login was successful.')
 else:
     print('Incorrect name or password.')
     exit()
 
 # Vyběr textu a ověření volby
-line()
+print(ODDELOVAC)
 print('We have 3 texts to be analyzed.')
 text_choice = input('Enter a number 1-3 to select: ')
 
-if text_choice.isnumeric():
+if text_choice.isnumeric() and int(text_choice) in range(1, 4):
     text_choice = int(text_choice) - 1
 else:
     print('Your choice is not possible. Choose a number 1-3.')
     exit()
 
-if text_choice < 0 or text_choice > 2:
-    print('Your choice is not possible. Choose a number 1-3.')
-    exit()
-
-# Rozdělení a očištění textu
-analysis = TEXTS[text_choice].split()
-analysis_clean = [slovo.strip(",.") for slovo in analysis]
-
 # Proměnné pro výpočty
-count_words = 0
-count_title = 0
-count_upper = 0
-count_lower = 0
-count_numbers = 0
-count_sum = 0
-longest_word = 0
-count_graph = {}
+title_case = 0
+upper_case = 0
+lower_case = 0
+digits = list()
+frequencies = dict()
 
-# Počet slov
-count_len = len(analysis_clean)
+for word in TEXTS[text_choice].split():
+    word = word.strip(",.")
+    if len(word) not in frequencies:
+        frequencies[len(word)] = 1
+    else:
+        frequencies[len(word)] += 1
 
-# Zjišťování pomocí smyčky
-for slovo in analysis_clean:
-    if slovo.istitle():
-        count_title += 1
-    elif slovo.isupper():
-        count_upper += 1
-    elif slovo.islower():
-        count_lower += 1
-    elif slovo.isdigit():
-        count_numbers += 1
-        count_sum += int(slovo)
-
-    count_graph[len(slovo)] = count_graph.get(len(slovo), 0) + 1
+    if word.istitle():
+        title_case = title_case + 1
+    elif word.isupper():
+        upper_case = upper_case + 1
+    elif word.islower():
+        lower_case = lower_case + 1
+    elif word.isdigit():
+        digits.append(int(word))
 
 # Výpis výsledků
-line()
-print('There are', count_len, 'words.')
-print('There are', count_title, 'titlecase words.')
-print('There are', count_upper, 'uppercase words.')
-print('There are', count_lower, 'lowercase words.')
-print('There are', count_numbers, 'numeric strings.')
+print(ODDELOVAC)
+print(                                                                         # staci jeden `print` na vsechny vystupy
+    f"There are {title_case} titlecase words",
+    f"There are {lower_case} lowercase words",
+    f"There are {upper_case} uppercase words",
+    f"There are {len(digits)} numeric words",                                  # pomoci seznamu urcime delku
+    f"If we summed all the numbers in this text we would get: {sum(digits)}",  # pomoci seznamu pocitame sumu
+    sep="\n"                                                                   # mezi kazdy vypisem novy radek
+)
 
 # Výpis grafu
-line()
-for key in sorted(count_graph):
-    if key < 10:
-        print('', key, count_graph[key] * '*', count_graph[key])
-    else:
-        print(key, count_graph[key] * '*', count_graph[key])
-
-# Výpis součtu čísel
-line()
-print('If we summed all the numbers in this text we would get:', count_sum)
+print(ODDELOVAC)
+for klic, hodnota in sorted(frequencies.items()):        # prochazim jak klice, tak hodnoty pro vzestupne setrizeny slovnik
+    print(f"{klic:>2} {hodnota * '*':<17} {hodnota}")  # vypisuji (+ zarovnavam na ruzne delky)
