@@ -1,4 +1,4 @@
-# Texty ke zpracování
+# Texts for processing
 '''
 author = Jonáš Vlach
 '''
@@ -32,30 +32,29 @@ in modern oceans. Other fish such as paddlefish,
 garpike and stingray are also present.'''
 ]
 
-# Registrovaní uživatelé
+# Registered users
 USERS = {'bob' : '123',
          'ann' : 'pass123',
          'mike': 'password123',
          'liz' : 'pass123'}
 
-# Nastavení oddělovače
+# Separator setting
 ODDELOVAC = 40 * '-'
 
-
-# Úvod programu
+# Introduction to the program
 print(ODDELOVAC)
 print('Welcome to the app. Please log in:')
 username = input('USERNAME: ')
 password = input('PASSWORD: ')
 
-# Ověření jména a hesla
+# Name and password verification
 if USERS.get(username) == password:
     print('Login was successful.')
 else:
     print('Incorrect name or password.')
     exit()
 
-# Vyběr textu a ověření volby
+# Text selection and its verification
 print(ODDELOVAC)
 print('We have 3 texts to be analyzed.')
 text_choice = input('Enter a number 1-3 to select: ')
@@ -66,7 +65,7 @@ else:
     print('Your choice is not possible. Choose a number 1-3.')
     exit()
 
-# Proměnné pro výpočty
+# Variables for calculations
 title_case = 0
 upper_case = 0
 lower_case = 0
@@ -89,18 +88,17 @@ for word in TEXTS[text_choice].split():
     elif word.isdigit():
         digits.append(int(word))
 
-# Výpis výsledků
-print(ODDELOVAC)
-print(                                                                         # staci jeden `print` na vsechny vystupy
+# Print of results
+print(ODDELOVAC,
     f"There are {title_case} titlecase words",
     f"There are {lower_case} lowercase words",
     f"There are {upper_case} uppercase words",
-    f"There are {len(digits)} numeric words",                                  # pomoci seznamu urcime delku
-    f"If we summed all the numbers in this text we would get: {sum(digits)}",  # pomoci seznamu pocitame sumu
-    sep="\n"                                                                   # mezi kazdy vypisem novy radek
+    f"There are {len(digits)} numeric words",
+    f"If we summed all the numbers in this text we would get: {sum(digits)}",
+    sep="\n"
 )
 
-# Výpis grafu
+# Print of graph
 print(ODDELOVAC)
-for klic, hodnota in sorted(frequencies.items()):        # prochazim jak klice, tak hodnoty pro vzestupne setrizeny slovnik
-    print(f"{klic:>2} {hodnota * '*':<17} {hodnota}")  # vypisuji (+ zarovnavam na ruzne delky)
+for klic, hodnota in sorted(frequencies.items()):
+    print(f"{klic:>2} {hodnota * '*':<17} {hodnota}")
